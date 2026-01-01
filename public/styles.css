@@ -1,51 +1,305 @@
-body,
-html {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
+/* Reset و تنظیمات اولیه */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.chat {
-	padding-top: 40px;
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    direction: ltr;
 }
 
-#root {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	overflow-y: auto;
-	height: 100%;
-	/* padding: 10px; */
+/* تم دارک تلگرام */
+.telegram-dark {
+    background: #0e1621;
+    color: #e3e3e3;
 }
 
+/* کانتینر اصلی چت */
+.chat-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #17212b;
+    position: relative;
+}
+
+/* هدر شبیه تلگرام */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #17212b;
+    border-bottom: 1px solid #0e1621;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    gap: 15px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: #6b7b8d;
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.chat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.chat-status {
+    font-size: 13px;
+    color: #6b7b8d;
+}
+
+/* بخش پیام‌ها */
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 15px;
+    background: #0e1621;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* استایل اسکرول بار */
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: #17212b;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: #2b5278;
+    border-radius: 3px;
+}
+
+/* استایل پیام‌ها */
 .message {
-	margin-bottom: 10px;
+    max-width: 65%;
+    padding: 8px 12px;
+    border-radius: 18px;
+    position: relative;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s ease;
 }
 
-.message .user {
-	font-weight: bold;
-	text-align: right;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+/* پیام ارسالی (سمت راست) */
+.message.sent {
+    align-self: flex-end;
+    background: #2b5278;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+/* پیام دریافتی (سمت چپ) */
+.message.received {
+    align-self: flex-start;
+    background: #182533;
+    color: #ffffff;
+    border-bottom-left-radius: 5px;
+}
+
+/* اطلاعات پیام */
+.message-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.message.sent .message-info {
+    color: #8ab4f8;
+}
+
+.message.received .message-info {
+    color: #6b7b8d;
+}
+
+.message-time {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.message-status {
+    font-size: 14px;
+}
+
+/* نوار تایپ پیام */
+.message-input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #17212b;
+    border-top: 1px solid #0e1621;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+}
+
+.input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #242f3d;
+    border-radius: 20px;
+    padding: 0 15px;
+}
+
+.message-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 12px 0;
+    font-size: 15px;
+    outline: none;
+    font-family: inherit;
+}
+
+.message-input::placeholder {
+    color: #6b7b8d;
+}
+
+.attachment-btn, .emoji-btn, .mic-btn {
+    color: #6b7b8d;
+}
+
+.send-btn {
+    background: #2b5278;
+    color: white;
+}
+
+.send-btn:hover {
+    background: #3b6ea0;
+}
+
+/* دکمه حذف پیام */
 .message .remove {
-	position: absolute;
-	width: 22px;
-	height: 20px;
-	left: -60px;
-	/* display: "block", */
-	display: none;
-	padding: 0;
-	line-height: 18px;
-	border: "none";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: #ff3b30;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
 }
 
-.send-message {
-	padding: 0;
+.message:hover .remove {
+    display: flex;
 }
 
-.my-input-text::placeholder {
-	color: #ccc;
+/* اعلان‌ها */
+.notification {
+    align-self: center;
+    background: rgba(43, 82, 120, 0.3);
+    color: #8ab4f8;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+/* تاریخ جداکننده */
+.date-separator {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.date-separator span {
+    background: rgba(43, 82, 120, 0.3);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    color: #6b7b8d;
+}
+
+/* ریسپانسیو */
+@media (max-width: 768px) {
+    .chat-app {
+        max-width: 100%;
+    }
+    
+    .message {
+        max-width: 80%;
+    }
+    
+    .message-input-container {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-header {
+        padding: 10px;
+    }
+    
+    .icon-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+    
+    .messages-container {
+        padding: 15px 10px;
+    }
 }
